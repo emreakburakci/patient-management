@@ -1,0 +1,28 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: patient-service
+          # Docker will resolve the service name to the container IP
+          uri: http://patient-service:4000
+          # predicates determines which requests to route to this service
+          predicates:
+            - Path=/api/patients/**
+          filters:
+            ## strips the text after the first slash
+            ## REST CLIENT -> http://localhost:4004/api/patients/ matches with the predicate
+            ## api gateway rewrites the request to http://patient-service:4000/patients/
+            - StripPrefix=1
+
+        ## for patient service swagger-ui
+        - id: api-docs-patient-route
+          uri: http://patient-service:4000
+          predicates:
+            - Path=/api-docs/patients
+          filters:
+            ## REST-CLIENT -> http://localhost:4004/api-docs/patients/ matches with the predicate
+            ## api gateway rewrites the request to http://patient-service:4000/v3/api-docs
+            - RewritePath=/api-docs/patients,/v3/api-docs
