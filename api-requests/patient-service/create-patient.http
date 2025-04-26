@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "name": "emre yilmaz kafka",
-  "email": "testbillingkafka@test.com",
+  "email": "testkafkaconsumer@test.com",
   "address": "123 main street",
   "dateOfBirth": "1994-12-31",
   "registeredDate": "2024-11-28"
